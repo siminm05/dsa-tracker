@@ -1,23 +1,24 @@
 from flask import Flask, request, redirect
 import sqlite3
+from datetime import date
 
 app = Flask(__name__)
 
 def db():
     conn = sqlite3.connect("tracker.db")
-    conn.execute("CREATE TABLE IF NOT EXISTS problems (id INTEGER PRIMARY KEY, title TEXT, topic TEXT, difficulty TEXT)")
+    conn.execute("CREATE TABLE IF NOT EXISTS problems (id INTEGER PRIMARY KEY, title TEXT, topic TEXT, difficulty TEXT, date_solved TEXT)")
     return conn
 
 @app.route("/", methods=["GET", "POST"])
 def home():
     conn = db()
     if request.method == "POST":
-        conn.execute("INSERT INTO problems (title, topic, difficulty) VALUES (?, ?, ?)",
-                     (request.form["title"], request.form["topic"], request.form["difficulty"]))
+        conn.execute("INSERT INTO problems (title, topic, difficulty, date_solved) VALUES (?, ?, ?, ?)",
+                     (request.form["title"], request.form["topic"], request.form["difficulty"], date.today().isoformat()))
         conn.commit()
         return redirect("/")
-    rows = conn.execute("SELECT title, topic, difficulty FROM problems").fetchall()
-    items = "".join(f"<li>{t} | {tp} | {d}</li>" for t, tp, d in rows)
+    rows = conn.execute("SELECT title, topic, difficulty, date_solved FROM problems").fetchall()
+    items = "".join(f"<li>{t} | {tp} | {d} | {ds}</li>" for t, tp, d, ds in rows)
     return f"""
         <form method="post">
             <input name="title" placeholder="Problem title" required>
