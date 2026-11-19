@@ -17,7 +17,7 @@ def home():
                      (request.form["title"], request.form["topic"], request.form["difficulty"], date.today().isoformat()))
         conn.commit()
         return redirect("/")
-    rows = conn.execute("SELECT title, topic, difficulty, date_solved FROM problems").fetchall()
+    rows = conn.execute("SELECT title, topic, difficulty, date_solved FROM problems ORDER BY id DESC").fetchall()
     items = "".join(f"<li>{t} | {tp} | {d} | {ds}</li>" for t, tp, d, ds in rows)
     return f"""
         <form method="post">
