@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>DSA Tracker</title>
+</head>
+<body>
+  <h1>DSA Tracker</h1>
+  <form method="post">
+    <input name="title" placeholder="Problem title" required>
+    <input name="topic" placeholder="Topic (e.g. Array)" required>
+    <select name="difficulty">
+      <option>Easy</option>
+      <option>Medium</option>
+      <option>Hard</option>
+    </select>
+    <button>Add</button>
+  </form>
+  <ul>
+    {% for p in problems %}
+      <li>{{ p.title }} | {{ p.topic }} | {{ p.difficulty }} | {{ p.date_solved }}</li>
+    {% else %}
+      <li>No problems yet.</li>
+    {% endfor %}
+  </ul>
+</body>
+</html>
