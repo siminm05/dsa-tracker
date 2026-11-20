@@ -6,16 +6,22 @@
 </head>
 <body>
   <h1>DSA Tracker</h1>
+
+  {% for m in get_flashed_messages() %}
+    <p><b>{{ m }}</b></p>
+  {% endfor %}
+
   <form method="post">
-    <input name="title" placeholder="Problem title" required>
-    <input name="topic" placeholder="Topic (e.g. Array)" required>
+    <input name="title" placeholder="Problem title" maxlength="100" required>
+    <select name="topic">
+      {% for t in topics %}<option>{{ t }}</option>{% endfor %}
+    </select>
     <select name="difficulty">
-      <option>Easy</option>
-      <option>Medium</option>
-      <option>Hard</option>
+      {% for d in difficulties %}<option>{{ d }}</option>{% endfor %}
     </select>
     <button>Add</button>
   </form>
+
   <ul>
     {% for p in problems %}
       <li>{{ p.title }} | {{ p.topic }} | {{ p.difficulty }} | {{ p.date_solved }}</li>
