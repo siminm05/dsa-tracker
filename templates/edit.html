@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Edit problem</title>
+</head>
+<body>
+  <h1>Edit problem</h1>
+
+  {% for m in get_flashed_messages() %}
+    <p><b>{{ m }}</b></p>
+  {% endfor %}
+
+  <form method="post">
+    <input name="title" value="{{ problem.title }}" maxlength="100" required>
+    <select name="topic">
+      {% for t in topics %}<option {{ 'selected' if t == problem.topic }}>{{ t }}</option>{% endfor %}
+    </select>
+    <select name="difficulty">
+      {% for d in difficulties %}<option {{ 'selected' if d == problem.difficulty }}>{{ d }}</option>{% endfor %}
+    </select>
+    <button>Save</button>
+    <a href="{{ url_for('home') }}">Cancel</a>
+  </form>
+</body>
+</html>

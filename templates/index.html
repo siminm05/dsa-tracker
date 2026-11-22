@@ -24,7 +24,13 @@
 
   <ul>
     {% for p in problems %}
-      <li>{{ p.title }} | {{ p.topic }} | {{ p.difficulty }} | {{ p.date_solved }}</li>
+      <li>
+        {{ p.title }} | {{ p.topic }} | {{ p.difficulty }} | {{ p.date_solved }}
+        <a href="{{ url_for('edit', problem_id=p.id) }}">Edit</a>
+        <form method="post" action="{{ url_for('delete', problem_id=p.id) }}" style="display:inline">
+          <button>Delete</button>
+        </form>
+      </li>
     {% else %}
       <li>No problems yet.</li>
     {% endfor %}
