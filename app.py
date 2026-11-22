@@ -1,6 +1,7 @@
 from flask import Flask, request, redirect, render_template, flash, abort
 from datetime import date
 import db
+from logic import next_review_date
 
 app = Flask(__name__)
 app.secret_key = "dev-only-change-me"
@@ -35,11 +36,12 @@ def home():
             for e in errors:
                 flash(e)
         else:
-            db.execute("INSERT INTO problems (title, topic, difficulty, date_solved) VALUES (?, ?, ?, ?)",
-                       (data["title"], data["topic"], data["difficulty"], date.today().isoformat()))
+            today = date.today()
+            db.execute("INSERT INTO problems (title, topic, difficulty, date_solved, review_count, next_review) VALUES (?, ?, ?, ?, 0, ?)",
+                       (data["title"], data["topic"], data["difficulty"], today.isoformat(), next_review_date(0, today).isoformat()))
             flash("Problem added!")
         return redirect("/")
-    rows = db.query("SELECT id, title, topic, difficulty, date_solved FROM problems ORDER BY id DESC")
+    rows = db.query("SELECT id, title, topic, difficulty, date_solved, next_review FROM problems ORDER BY id DESC")
     return render_template("index.html", problems=rows, topics=TOPICS, difficulties=DIFFICULTIES)
 
 @app.route("/delete/<int:problem_id>", methods=["POST"])

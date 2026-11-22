@@ -18,4 +18,4 @@ def execute(sql, params=()):
             conn.execute(sql, params)
 
 def init_db():
-    execute("CREATE TABLE IF NOT EXISTS problems (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, topic TEXT NOT NULL, difficulty TEXT NOT NULL, date_solved TEXT NOT NULL)")
+    execute("CREATE TABLE IF NOT EXISTS problems (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, topic TEXT NOT NULL, difficulty TEXT NOT NULL, date_solved TEXT NOT NULL, review_count INTEGER NOT NULL DEFAULT 0, next_review TEXT NOT NULL)")
