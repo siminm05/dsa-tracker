@@ -19,6 +19,7 @@
     <select name="difficulty">
       {% for d in difficulties %}<option {{ 'selected' if d == problem.difficulty }}>{{ d }}</option>{% endfor %}
     </select>
+        <label>Next review: <input type="date" name="next_review" value="{{ problem.next_review }}" required></label>
     <button>Save</button>
     <a href="{{ url_for('home') }}">Cancel</a>
   </form>

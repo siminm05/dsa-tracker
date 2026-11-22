@@ -19,6 +19,9 @@
     <select name="difficulty">
       {% for d in difficulties %}<option>{{ d }}</option>{% endfor %}
     </select>
+        <select name="review_in">
+      {% for value, label in review_choices.items() %}<option value="{{ value }}">{{ label }}</option>{% endfor %}
+    </select>
     <button>Add</button>
   </form>
 
